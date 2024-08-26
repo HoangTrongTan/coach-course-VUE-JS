@@ -1,25 +1,44 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import CoachDetail from '../pages/coaches/CoachDetail.vue';
+import CoachesList   from '../pages/coaches/CoachesList.vue';
+import CoachRegistation from '../pages/coaches/CoachRegistration.vue';
+import userAuth from '../pages/auth/UserAuth.vue';
+
+import ContactCoach from '../pages/requests/ContactCoach.vue';
+import RequestsReceived from '../pages/requests/RequestsReceived.vue';
+
+import NotFound from '../pages/NotFound.vue';
+
+import ReactivityInAction from '../pages/Reactivity/ReactivityInAction.vue';
+
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    redirect: "/coaches",
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+    path: "/coaches",
+    component: CoachesList,
+  },
+  {
+    component: CoachDetail,
+    path: '/coaches/:id',
+    props: true,
+    children: [
+      { path: 'contact', component: ContactCoach }
+    ]
+  },
+  { path: '/register', component: CoachRegistation, },
+  { path: '/requests', component: RequestsReceived, },
+  { path: '/computed-watch-vue', component: ReactivityInAction },
+  { path: '/auth', component: userAuth },
+  { path: '/:notFound(.*)', component: NotFound, },
+];
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
