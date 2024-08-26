@@ -1,5 +1,10 @@
 # find-coach
 
+## Teach was use in this project.
+```
+VUE-ROUTER, VUE-X, FIRE-BASE.
+```
+
 ## Project setup
 ```
 npm install
