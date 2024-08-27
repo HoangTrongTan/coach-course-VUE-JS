@@ -9,20 +9,22 @@ export default {
       hourlyRate: data.rate,
     };
 
+    const token = context.rootState.auth.token;
+
     const respponse = await fetch(
-      `https://udemy-vue-firebase-sites-b9aba-default-rtdb.firebaseio.com/coaches/${userId}.json`,
+      `https://udemy-vue-firebase-sites-b9aba-default-rtdb.firebaseio.com/coaches/${userId}.json?auth=${token}`,
       {
         method: "PUT",
         body: JSON.stringify(coachData),
       }
     );
 
-    // const responseData = await respponse.json();
+    const responseData = await respponse.json();
 
     if (!respponse.ok) {
       console.log("lỗi");
-
-      //errror ...
+      const error = new Error(responseData.message || 'Failed to fetch!');
+      throw error;
     }
 
     context.commit("registerCoach", {

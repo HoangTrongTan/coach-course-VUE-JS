@@ -7,7 +7,7 @@ export default {
     return {
       userId: "c3",
       token: null,
-      tokenExpiration: null
+      didAutoLogout: false
     };
   },
   mutations,

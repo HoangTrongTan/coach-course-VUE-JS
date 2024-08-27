@@ -4,7 +4,6 @@
       <p>{{ error }}</p>
     </base-dialog>
     <base-dialog :show="isLoading" title="Authenticating......" fixed>
-      <p>{{ error }}</p>
       <base-spinner></base-spinner>
     </base-dialog>
     <form @submit.prevent="submitForm">
@@ -82,24 +81,28 @@ export default {
 
       this.isLoading = true;
 
+      const actionPayload = {
+        email: this.email,
+        password: this.password,
+      };
+
+      const redirectUrl = "/" + (this.$route.query.redirect || 'coaches' );
       try {
         if (this.mode === "login") {
-          //...
+          await this.$store.dispatch("login", actionPayload);
         } else {
-          await this.$store.dispatch("signup", {
-            email: this.email,
-            password: this.password,
-          });
+          await this.$store.dispatch("signup", actionPayload);
         }
+        this.$router.replace(redirectUrl);
       } catch (e) {
         this.error = e.message || "Failed to authenticate, try later.";
       }
 
       this.isLoading = false;
     },
-    handleError(){
+    handleError() {
       this.error = null;
-    }
+    },
   },
 };
 </script>

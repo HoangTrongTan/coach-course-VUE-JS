@@ -13,6 +13,21 @@ export default {
   components: {
     TheHeader,
   },
+  computed: {
+    didAutoLoggout(){
+      return this.$store.getters.didAutoLoggout;
+    }
+  },
+  created(){
+    this.$store.dispatch('tryLogin')
+  },
+  watch: {
+    didAutoLoggout(curValue, oldValue){
+      if(curValue && curValue !== oldValue){
+        this.$router.replace('/coaches')
+      }
+    }
+  }
 };
 </script>
 

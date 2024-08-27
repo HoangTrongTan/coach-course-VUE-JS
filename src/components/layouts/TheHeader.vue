@@ -4,11 +4,42 @@
       <h1><router-link to="/">a Coach</router-link></h1>
       <ul>
         <li><router-link to="/coaches">All Coaches</router-link></li>
-        <li><router-link to="/requests">Requests</router-link></li>
+        <li v-if="isLoggedIn">
+          <router-link to="/requests">Requests</router-link>
+        </li>
+        <li v-else>
+          <router-link to="/auth">Login</router-link>
+        </li>
+        <li v-if="isLoggedIn">
+          <base-button @click="handleLogout">Logout</base-button>
+        </li>
+        <li v-if="isLoggedIn">
+          <router-link to="/computed-watch-vue">
+            computed-watch-vue
+          </router-link>
+        </li>
       </ul>
     </nav>
   </header>
 </template>
+
+<script>
+import BaseButton from "../ui/BaseButton.vue";
+export default {
+  components: { BaseButton },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated;
+    },
+  },
+  methods: {
+    handleLogout() {
+      this.$store.dispatch("logout");
+      this.$router.replace("/auth");
+    },
+  },
+};
+</script>
 
 <style scoped>
 header {
